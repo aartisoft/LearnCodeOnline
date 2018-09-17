@@ -3,6 +3,7 @@
     <corners
         android:radius="14dp"
         />
+
     <gradient
         android:angle="45"
         android:centerX="56%"

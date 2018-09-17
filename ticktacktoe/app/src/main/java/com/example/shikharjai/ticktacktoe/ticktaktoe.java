@@ -7,9 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class ticktaktoe extends AppCompatActivity {
-
-    private static final String TAG ="ABC" ;
+public class ticktaktoe extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG ="aaaaaa" ;
     Button btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9;
     boolean current_player_x = false;
 //    Map<String, Integer> aMap;
@@ -22,7 +21,7 @@ public class ticktaktoe extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ticktaktoe);
-//        aMap = new HashMap<String, Integer>();
+        //aMap = new HashMap<String, Integer>();
         console = findViewById(R.id.console);
         reset = (Button)findViewById(R.id.reset);
 
@@ -35,7 +34,18 @@ public class ticktaktoe extends AppCompatActivity {
         btn7 = findViewById(R.id.btn7);
         btn8 = findViewById(R.id.btn8);
         btn9 = findViewById(R.id.btn9);
+
         enableAllbuttons(false);
+        btn1.setOnClickListener(this);
+        btn2.setOnClickListener(this);
+        btn3.setOnClickListener(this);
+        btn4.setOnClickListener(this);
+        btn5.setOnClickListener(this);
+        btn6.setOnClickListener(this);
+        btn7.setOnClickListener(this);
+        btn8.setOnClickListener(this);
+        btn9.setOnClickListener(this);
+
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,8 +55,11 @@ public class ticktaktoe extends AppCompatActivity {
         resetGame();
     }
 
-    public void Abc(View v){
+    public void onClick(View v){
+        Log.d(TAG, "onClick: "+v.getId());
+
     Button b = findViewById(v.getId());
+    b.setEnabled(false);
         if(current_player_x){
             b.setText("X");
 //            aMap.put(""+v.getId(), 1);
@@ -63,7 +76,7 @@ public class ticktaktoe extends AppCompatActivity {
             result("Draw");
         }
 
-        switch (v.getId()){
+        switch (b.getId()){
             case R.id.btn1:
                 Log.d(TAG, "checkStatus: sss");
                     if(current_player_x){
@@ -176,7 +189,6 @@ public class ticktaktoe extends AppCompatActivity {
             }
         }
 
-
         if((board[0][2]==board[1][1] && board[1][1]==board[2][0])){
             Log.d(TAG, "checkStatus: "+board[0][2] +""+ board[1][1] + ""+board[2][0]);
             if(board[0][2] == 1){
@@ -186,8 +198,6 @@ public class ticktaktoe extends AppCompatActivity {
                 result("Player 1 wins. Second Diagonal");
             }
         }
-
-
     }
 
     public void result(String str){
@@ -220,6 +230,7 @@ public class ticktaktoe extends AppCompatActivity {
         console.setText("Player 1 turn");
     }
 
+
     public void enableAllbuttons(boolean val){
         btn1.setEnabled(val);
         btn2.setEnabled(val);
@@ -231,6 +242,4 @@ public class ticktaktoe extends AppCompatActivity {
         btn8.setEnabled(val);
         btn9.setEnabled(val);
     }
-
-
 }
