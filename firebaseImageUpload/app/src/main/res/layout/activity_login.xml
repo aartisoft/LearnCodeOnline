@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/colorPrimary"
+    android:layout_height="match_parent"
+    tools:context="com.example.shikhar.shopping.Login">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="73dp"
+        android:fontFamily="cursive"
+        android:text="Shop Cart"
+        android:textColor="@android:color/white"
+        android:textSize="60sp"
+        android:textStyle="bold|italic" />
+
+    <!--Email Label-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="123dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/Email"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:ems="10"
+            android:hint="Enter your Email"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/pwd"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:ems="10"
+            android:hint="Enter your Password"
+            android:inputType="textPassword" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/Login"
+        android:layout_width="203dp"
+        android:layout_height="66dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="129dp"
+        android:background="@drawable/button"
+        android:text="Login"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/signup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="84dp"
+        android:text="No accound yet?Craate a new one"
+        android:textColor="#D5E5DB"
+        android:textSize="18sp" />
+
+    <ProgressBar
+        android:id="@+id/loginProgress"
+        style="?android:attr/progressBarStyleHorizontal"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:indeterminate="true"
+        tools:visibility="invisible" />
+
+</RelativeLayout>

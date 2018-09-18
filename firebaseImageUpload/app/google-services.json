@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "939942845140",
+    "firebase_url": "https://shopping-app-4f6c7.firebaseio.com",
+    "project_id": "shopping-app-4f6c7",
+    "storage_bucket": "shopping-app-4f6c7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:939942845140:android:85ee52e3fe881865",
+        "android_client_info": {
+          "package_name": "com.example.vyanktesh.shopping"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "939942845140-o9uhkt7tjmbisat4bov317dvjh25qg0i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.vyanktesh.shopping",
+            "certificate_hash": "3f2221ee0df8552b8a7a1857e59625477d72b681"
+          }
+        },
+        {
+          "client_id": "939942845140-4prrkrlib84iouc6kqbtq59rje9uvbgd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3AdoyDI-N4G7c6UV1gbzXWwPoTiaKZ1E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "939942845140-4prrkrlib84iouc6kqbtq59rje9uvbgd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

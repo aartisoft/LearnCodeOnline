@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/colorPrimary"
+    android:layout_height="match_parent"
+    tools:context="com.example.shikhar.shopping.signup">
+
+    <Button
+        android:id="@+id/loginAgain"
+        android:layout_width="203dp"
+        android:layout_height="66dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/button"
+        android:text="Alreay have an account?Login"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="73dp"
+        android:fontFamily="cursive"
+        android:text="Shop Cart"
+        android:textColor="@android:color/white"
+        android:textSize="60sp"
+        android:textStyle="bold|italic" />
+
+    <!--Email Label-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/Email1"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:ems="10"
+            android:hint="Enter your Email"
+            android:inputType="textEmailAddress"
+            android:textColor="#ffffff" />
+
+        <EditText
+            android:id="@+id/pwd1"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:ems="10"
+            android:hint="Enter your Password"
+            android:inputType="textPassword"
+            android:textColor="#ffffff" />
+
+        <EditText
+            android:id="@+id/pwd1c"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:ems="10"
+            android:hint="Confirm your password"
+            android:inputType="textPassword"
+            android:textColor="#ffffff" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/signup"
+        android:layout_width="203dp"
+        android:layout_height="66dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="129dp"
+        android:background="@drawable/button"
+        android:text="Sign Up"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp" />
+
+    <ProgressBar
+        android:id="@+id/progressBar2"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp" />
+
+</RelativeLayout>
