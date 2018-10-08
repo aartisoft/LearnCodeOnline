@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    android:layout_margin="8dp"
+    app:cardCornerRadius="10dp"
+    android:elevation="30dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@android:color/transparent"
+    android:layout_height="200dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <LinearLayout
+        android:padding="5dp"
+        android:orientation="vertical"
+        android:weightSum="100"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_weight="24"
+            android:id="@+id/avtar"
+            android:src="@drawable/place"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
+        <LinearLayout
+            android:weightSum="100"
+            android:padding="3dp"
+            android:layout_weight="76"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+           <LinearLayout
+               android:weightSum="100"
+               android:layout_weight="20"
+               android:layout_width="match_parent"
+               android:orientation="vertical"
+               android:layout_height="match_parent">
+               <TextView
+                   android:id="@+id/Sname"
+                   android:text="heheheh"
+                   android:singleLine="true"
+                   android:paddingStart="5dp"
+                   android:textSize="16sp"
+                   android:textColor="@android:color/black"
+                   android:layout_weight="50"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content" />
+               <TextView
+                   android:id="@+id/Sartist"
+                   android:paddingStart="5dp"
+                   android:text="Ankit Tiwari"
+                   android:textSize="12sp"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   />
+           </LinearLayout>
+            <Button
+                android:visibility="gone"
+                android:id="@+id/more"
+                android:layout_weight="80"
+                android:background="@drawable/ic_more_vert_black_24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>
