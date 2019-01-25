@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "467478506437",
+    "firebase_url": "https://chuckstuffs-59a64.firebaseio.com",
+    "project_id": "chuckstuffs-59a64",
+    "storage_bucket": "chuckstuffs-59a64.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:467478506437:android:d38c102a9faba3d2",
+        "android_client_info": {
+          "package_name": "com.example.shikharjai.foodapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "467478506437-ahbls6bbl0mgag2q1toktu86m7pnnq40.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.shikharjai.foodapp",
+            "certificate_hash": "3c12802f020f6ed125097d8787feb119cb93fae5"
+          }
+        },
+        {
+          "client_id": "467478506437-3gubbb1ln96vjihl8o9bamk2ki8fcqjt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5qQsYAAnH_iXNWiTF_ysH1xda1biyKd4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "467478506437-3gubbb1ln96vjihl8o9bamk2ki8fcqjt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
