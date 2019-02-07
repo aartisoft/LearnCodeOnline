@@ -43,18 +43,18 @@ public class food_menu extends AppCompatActivity
     private List<String> categoryList = new ArrayList();
     private FirebaseRecyclerAdapter firebaseRecyclerAdapter1;
     private FloatingActionButton floatingActionButton;
+    protected DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_menu);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Menu");
+        toolbar.setTitle("Menu Management");
         setSupportActionBar(toolbar);
 
         TextView navHeaderTitle;
         RecyclerView recyclerView;
-        final FirebaseRecyclerAdapter firebaseRecyclerAdapter;
         floatingActionButton = findViewById(R.id.fab);
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -65,7 +65,7 @@ public class food_menu extends AppCompatActivity
         });
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -74,21 +74,23 @@ public class food_menu extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         View headerView = navigationView.getHeaderView(0);
         navHeaderTitle = (TextView) headerView.findViewById(R.id.nav_header_title); //headerView is defined in the "app:headerLayout"
                                                                                    //attribute of the navigationView
-//        navHeaderTitle.setText(User.currentUser.getName()); // Sets the name of the header title to name of the current
+
+//      navHeaderTitle.setText(User.currentUser.getName()); // Sets the name of the header title to name of the current
                                                                        // logged in user
 
             Query query = FirebaseDatabase.getInstance().getReference("category");
-
             recyclerView = findViewById(R.id.recycler_view);
 
         FirebaseRecyclerOptions<CategoryModel> options = new FirebaseRecyclerOptions.Builder<CategoryModel>().setQuery(query, new SnapshotParser<CategoryModel>() {
             @NonNull
             @Override
             public CategoryModel parseSnapshot(@NonNull DataSnapshot snapshot) {
-                Log.d(TAG, "parseSnapshot: "+snapshot.getChildrenCount());
+//                Log.d(TAG, "parseSnapshot: "+snapshot.getChildrenCount());
                 return new CategoryModel(snapshot.child("Image").getValue().toString(), snapshot.child("Name").getValue().toString());
              }
         }).build();
@@ -123,7 +125,8 @@ public class food_menu extends AppCompatActivity
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
-        Log.d(TAG, "onDataChange: "+categoryList.size());
+//        Log.d(TAG, "onDataChange: "+categoryList.size());
+        firebaseRecyclerAdapter1.notifyDataSetChanged();
         recyclerView.setAdapter(firebaseRecyclerAdapter1);
 
     }
@@ -163,7 +166,6 @@ public class food_menu extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -178,13 +180,13 @@ public class food_menu extends AppCompatActivity
             startActivity(new Intent(food_menu.this, MyOrders.class));
 
         } else if (id == R.id.nav_logout) {
-
+            Intent i = new Intent(food_menu.this, Login.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            User.currentUser = null;
+            startActivity(i);
         }
 
-
-
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

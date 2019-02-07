@@ -1,7 +1,6 @@
 package com.example.shikharjai.foodapp.Model;
 
-import com.example.shikharjai.foodapp.ViewHolderPackage.Order;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class Request {
@@ -9,7 +8,7 @@ public class Request {
     private String Phone;
     private String Address;
     private String Total;
-    private List<Order> requestedOrderList;
+    private ArrayList<Order> requestedOrderList;
     private int orderStatus;
 
     public int getOrderStatus() {
@@ -20,7 +19,7 @@ public class Request {
         this.orderStatus = orderStatus;
     }
 
-    public Request(String name, String phone, String address, String total, List<Order> requestedOrderList) {
+    public Request(String name, String phone, String address, String total, ArrayList<Order> requestedOrderList) {
         Name = name;
         Phone = phone;
         Address = address;
@@ -61,11 +60,11 @@ public class Request {
         Total = total;
     }
 
-    public List<Order> getRequestedOrderList() {
+    public ArrayList<Order> getRequestedOrderList() {
         return requestedOrderList;
     }
 
-    public void setRequestedOrderList(List<Order> requestedOrderList) {
+    public void setRequestedOrderList(ArrayList<Order> requestedOrderList) {
         this.requestedOrderList = requestedOrderList;
     }
 }

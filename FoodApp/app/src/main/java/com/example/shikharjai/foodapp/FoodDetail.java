@@ -17,8 +17,8 @@ import android.widget.Toast;
 
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.example.shikharjai.foodapp.Model.FoodModel;
-import com.example.shikharjai.foodapp.ViewHolderPackage.DatabaseAccess;
-import com.example.shikharjai.foodapp.ViewHolderPackage.Order;
+import com.example.shikharjai.foodapp.SqLite.DatabaseAccess;
+import com.example.shikharjai.foodapp.Model.Order;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

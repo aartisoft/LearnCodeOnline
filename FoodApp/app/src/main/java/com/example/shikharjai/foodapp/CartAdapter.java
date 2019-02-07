@@ -4,16 +4,14 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
-import com.example.shikharjai.foodapp.ViewHolderPackage.Order;
+import com.example.shikharjai.foodapp.Model.Order;
 
-import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.List;
 import java.util.Locale;

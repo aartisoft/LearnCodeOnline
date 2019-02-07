@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">FoodApp (Server)</string>
+    <string name="title_activity_login">Login</string>
+    <string name="fullName">Full Name</string>
+    <string name="email">xyz@example.com</string>
+    <string name="signUp">User Registration</string>
+    <string name="location">Address</string>
+    <string name="password">Password</string>
+    <string name="confirmPassword">Confrm Password</string>
+    <string name="terms_conditions">By clicking SignUp you agree all the Terms and Conditions.</string>
+    <string name="already_user">Already a user? Login Here...</string>
+    <string name="mobileNumber">User Contact</string>
+    <string name="title_activity_food_menu">food_menu</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">nav_header_title</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="card_title">Food Name</string>
+    <string name="card_content">Food Description</string>
+    <string name="action_share">Add to Cart</string>
+    <string name="save_for_later">Save for Later</string>
+    <string name="userName">username</string>
+</resources>

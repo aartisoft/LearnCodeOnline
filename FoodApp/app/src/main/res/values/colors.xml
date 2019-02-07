@@ -12,4 +12,14 @@
     <color name="startblue">#09c6df</color>
     <color name="endblue">#0bcce6</color>
     <color name="overlayBackground">#7f333639</color>
+    <color name="orange">#FF4630</color>
+    <color name="purple">#7745A9</color>
+    <color name="orangelight">#FF6250</color>
+    <color name="whiteblue">#F1F5F6</color>
+    <color name="dot_inactive">#E1E7EB</color>
+    <color name="dot_active">#A1ABB2</color>
+    <color name="textGray">#8B999F</color>
+    <color name="separator">#D0D4D9</color>
+    <color name="whitegrey">#F9F9F9</color>
+
 </resources>

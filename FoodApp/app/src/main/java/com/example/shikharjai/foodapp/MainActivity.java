@@ -1,6 +1,10 @@
 package com.example.shikharjai.foodapp;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.BatteryManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +22,14 @@ public class MainActivity extends AppCompatActivity {
     Button signIn, signUp;
     private String TAG="MainActivity";
 
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i(TAG, "onReceive: airplane mode changed     "+intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0)+intent.getAction());
+        }
+    };
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.rotate_around_center_point);
         final Animation animation2 = AnimationUtils.loadAnimation(this, R.anim.rotate_around_center_point2);
         imgLogo.startAnimation(animation);
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_BATTERY_CHANGED);
+        registerReceiver(receiver, filter);
 
         signIn = (Button) findViewById(R.id.login);
         signUp = (Button) findViewById(R.id.signup);
@@ -41,11 +57,11 @@ public class MainActivity extends AppCompatActivity {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: BYpassing");
-                startActivity(new Intent(MainActivity.this, food_menu.class)); finish();//bypassing for testing
+//                Log.d(TAG, "onClick: BYpassing");
+  //                startActivity(new Intent(MainActivity.this, food_menu.class)); finish();//bypassing for testing
 
-//                Intent i = new Intent(MainActivity.this, Login.class);
-//                startActivity(i);
+                Intent i = new Intent(MainActivity.this, Login.class);
+                startActivity(i);
             }
         });
 

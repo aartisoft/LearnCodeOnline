@@ -14,23 +14,37 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.shikharjai.foodapp.Common.Checksum;
+import com.example.shikharjai.foodapp.Common.Constants;
+import com.example.shikharjai.foodapp.Common.Paytm;
 import com.example.shikharjai.foodapp.Common.User;
 import com.example.shikharjai.foodapp.Model.Request;
-import com.example.shikharjai.foodapp.ViewHolderPackage.DatabaseAccess;
-import com.example.shikharjai.foodapp.ViewHolderPackage.Order;
+import com.example.shikharjai.foodapp.Retrofit.Api;
+import com.example.shikharjai.foodapp.SqLite.DatabaseAccess;
+import com.example.shikharjai.foodapp.Model.Order;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.paytm.pgsdk.PaytmOrder;
+import com.paytm.pgsdk.PaytmPGService;
+import com.paytm.pgsdk.PaytmPaymentTransactionCallback;
 
 import java.util.ArrayList;
 import java.util.Currency;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static java.util.Locale.getAvailableLocales;
 
 public class ShowCart extends AppCompatActivity {
     RecyclerView recyclerView;
-    List<Order> orderList;
+    ArrayList<Order> orderList;
     private String TAG="ShowCart";
     TextView total_price;
     int total;
@@ -58,7 +72,6 @@ public class ShowCart extends AppCompatActivity {
         orderList = databaseAccess.getCarts();
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ShowCart.this);
-
 
         recyclerView=findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(layoutManager);
@@ -104,16 +117,17 @@ public class ShowCart extends AppCompatActivity {
         alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Request request = new Request(User.currentUser.getUserName(), ""+User.currentUser.getContact(), editText.getText().toString(), ""+total, orderList);
+                Request request = new Request(User.currentUser.getName(), ""+User.currentUser.getContact(), editText.getText().toString(), ""+total, orderList);
 
                 requests.child(System.currentTimeMillis()+"").setValue(request);
+
                 databaseAccess=DatabaseAccess.getInstance(ShowCart.this);
                 databaseAccess.open();
                 databaseAccess.cleanCart(); // clearing the sqlite orderdetails table
                 orderList.clear();  // as well as the orders fethched from the sqlite orderdetais table
                 adapter.notifyDataSetChanged();
+                generateCheckSum(request.getTotal()+"");
                 total_price.setText(Currency.getInstance(locale).getSymbol()+"  "+0);
-                Toast.makeText(ShowCart.this, "Thanks " + User.currentUser.getName()+" for placing the order.", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -127,4 +141,132 @@ public class ShowCart extends AppCompatActivity {
 
         alertDialog.show();
     }
-}
+
+    private void generateCheckSum(String total) {
+        //getting the tax amount first.
+        String txnAmount = total;
+
+        //creating a retrofit object.
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Api.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        //creating the retrofit api service
+        Api apiService = retrofit.create(Api.class);
+
+        //creating paytm object
+        //containing all the values required
+        final Paytm paytm = new Paytm(
+                Constants.M_ID,
+                Constants.CHANNEL_ID,
+                txnAmount,
+                Constants.WEBSITE,
+                Constants.CALLBACK_URL,
+                Constants.INDUSTRY_TYPE_ID
+        );
+
+        //creating a call object from the apiService
+        Call<Checksum> call = apiService.getChecksum(
+                paytm.getmId(),
+                paytm.getOrderId(),
+                paytm.getCustId(),
+                paytm.getChannelId(),
+                paytm.getTxnAmount(),
+                paytm.getWebsite(),
+                paytm.getCallBackUrl(),
+                paytm.getIndustryTypeId()
+        );
+
+        //making the call to generate checksum
+        call.enqueue(new Callback<Checksum>() {
+            @Override
+            public void onResponse(Call<Checksum> call, Response<Checksum> response) {
+
+                //once we get the checksum we will initiailize the payment.
+                //the method is taking the checksum we got and the paytm object as the parameter
+                initializePaytmPayment(response.body().getChecksumHash(), paytm);
+                Log.d(TAG, "onResponse: Success");
+            }
+
+            @Override
+            public void onFailure(Call<Checksum> call, Throwable t) {
+                Toast.makeText(ShowCart.this, "Could not Generate Checksum"+t.toString(), Toast.LENGTH_SHORT).show();
+                Log.i(TAG, "onFailure: Fail"+t.toString());
+            }
+        });
+    }
+
+    private void initializePaytmPayment(String checksumHash, Paytm paytm) {
+
+            //getting paytm service
+        PaytmPGService Service = PaytmPGService.getStagingService();
+
+            //use this when using for production
+            //PaytmPGService Service = PaytmPGService.getProductionService();
+
+            //creating a hashmap and adding all the values required
+
+            HashMap<String, String> paramMap = new HashMap<>();
+            paramMap.put("MID", Constants.M_ID);
+            paramMap.put("ORDER_ID", paytm.getOrderId());
+            paramMap.put("CUST_ID", paytm.getCustId());
+            paramMap.put("CHANNEL_ID", paytm.getChannelId());
+            paramMap.put("TXN_AMOUNT", paytm.getTxnAmount());
+            paramMap.put("WEBSITE", paytm.getWebsite());
+            paramMap.put("CALLBACK_URL", paytm.getCallBackUrl());
+            paramMap.put("CHECKSUMHASH", checksumHash);
+            paramMap.put("INDUSTRY_TYPE_ID", paytm.getIndustryTypeId());
+
+
+            //creating a paytm order object using the hashmap
+            PaytmOrder order = new PaytmOrder(paramMap);
+
+            //intializing the paytm service
+            Service.initialize(order, null);
+
+            //finally starting the payment transaction
+            Service.startPaymentTransaction(this, true, true, new PaytmPaymentTransactionCallback() {
+                @Override
+                public void onTransactionResponse(Bundle inResponse) {
+                    Toast.makeText(ShowCart.this, "Thanks " + User.currentUser.getName()+" for placing the order.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ShowCart.this, "Order Placed" , Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void networkNotAvailable() {
+                    Toast.makeText(ShowCart.this, "Network Error", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void clientAuthenticationFailed(String inErrorMessage) {
+                    Toast.makeText(ShowCart.this, ""+inErrorMessage, Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void someUIErrorOccurred(String inErrorMessage) {
+                    Toast.makeText(ShowCart.this, ""+inErrorMessage, Toast.LENGTH_SHORT).show();
+
+                }
+
+                @Override
+                public void onErrorLoadingWebPage(int iniErrorCode, String inErrorMessage, String inFailingUrl) {
+                    Toast.makeText(ShowCart.this, ""+inErrorMessage, Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onBackPressedCancelTransaction() {
+                    Toast.makeText(ShowCart.this, "Back Pressesd", Toast.LENGTH_SHORT).show();
+
+                }
+
+                @Override
+                public void onTransactionCancel(String inErrorMessage, Bundle inResponse) {
+                    Toast.makeText(ShowCart.this, ""+inErrorMessage+inResponse.toString(), Toast.LENGTH_SHORT).show();
+
+                }
+            });
+
+        }
+    }
+

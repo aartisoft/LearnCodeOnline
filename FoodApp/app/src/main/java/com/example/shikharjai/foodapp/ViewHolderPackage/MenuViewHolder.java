@@ -26,7 +26,7 @@ public class MenuViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setMenuImage(String s) {
-        Log.d(TAG, "parseSnapshot: "+s);
+//        Log.d(TAG, "parseSnapshot: "+s);
         Picasso.get().load(""+s).into(menuImage);
     }
 

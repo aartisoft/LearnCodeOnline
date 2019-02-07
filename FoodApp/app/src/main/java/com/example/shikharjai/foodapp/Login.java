@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,8 +20,10 @@ import com.google.firebase.database.ValueEventListener;
 
 public class Login extends AppCompatActivity {
 
+    private static final String TAG = "Login.java";
     EditText username, pswd;
     Button loginBtn, signupBtn, adminBtn;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,28 +39,31 @@ public class Login extends AppCompatActivity {
         signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 startActivity(new Intent(Login.this, user_reg.class));
             }
         });
 
-        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
+        databaseReference = FirebaseDatabase.getInstance().getReference("users");
 
-        loginBtn.setOnClickListener(new View.OnClickListener() {
+         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "onClick: lgon");
                 final String userName = username.getText().toString().trim();
                 final String userPswd = pswd.getText().toString();
-                databaseReference.addValueEventListener(new ValueEventListener() {
 
+                databaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.child(userName).exists()){
+                        Log.d(TAG, "onDataChange: "+dataSnapshot.getChildrenCount());
 
+                        if(dataSnapshot.child(userName).exists()){
                             userModel userModel = dataSnapshot.child(userName)
                                     .getValue(userModel.class);
 
-                                if(userModel.getPassword().toString().equals(userPswd)){
-                                    User.currentUser = userModel;
+                                if(userModel.getPassword().equals(userPswd)){
+                                     User.currentUser = userModel;
                                     userModel.setUserName(userName);
                                     Toast.makeText(Login.this, "Welcome "+User.currentUser.getName(), Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(Login.this, food_menu.class));

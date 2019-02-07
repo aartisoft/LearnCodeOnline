@@ -6,6 +6,15 @@ public class userModel {
     private String Name;
     private String Password;
     private long Contact;
+    private boolean isStaff;
+    private String userName;
+
+   public userModel(String userName, String userPassword, Long userContact) {
+        Name = userName;
+        Password = userPassword;
+        Contact = userContact;
+        isStaff = false;
+    }
 
     public String getUserName() {
         return userName;
@@ -15,10 +24,15 @@ public class userModel {
         this.userName = userName;
     }
 
-    private String userName;
-
-
     public userModel() {
+    }
+
+    public boolean isStaff() {
+        return isStaff;
+    }
+
+    public void setStaff(boolean isStaff) {
+        this.isStaff = isStaff;
     }
 
     public long getContact() {
@@ -27,13 +41,6 @@ public class userModel {
 
     public void setContact(long contact) {
         Contact = contact;
-    }
-
-    public userModel(String userName, String userPassword, Long userContact) {
-        Name = userName;
-        Password = userPassword;
-        Contact = userContact;
-
     }
 
     public void setName(String name) {

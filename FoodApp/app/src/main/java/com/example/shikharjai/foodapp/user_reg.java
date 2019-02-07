@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class user_reg extends AppCompatActivity{
+    public static final String TAG = "user_REG";
     EditText fullName, userName, mobileNumber, location, userPass, confirmPass;
     CheckBox confirm;
     Button register;
@@ -48,8 +49,8 @@ public class user_reg extends AppCompatActivity{
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "onDataChange: if fire.......d");
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                    public static final String TAG = "user_REG";
 
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
