@@ -35,6 +35,7 @@ import android.widget.Toast;
 
 import com.example.serverfoodapp.Common.User;
 import com.example.serverfoodapp.Model.CategoryModel;
+import com.example.serverfoodapp.Model.FoodModel;
 import com.example.serverfoodapp.ViewHolder.MenuViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -43,9 +44,11 @@ import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -64,23 +67,22 @@ public class food_menu extends AppCompatActivity implements NavigationView.OnNav
     private static final int PERMIT_CODE = 201;
     private List<String> categoryList = new ArrayList();
     private FirebaseRecyclerAdapter firebaseRecyclerAdapter;
-    private FloatingActionButton floatingActionButton;
+    protected FloatingActionButton floatingActionButton;
     protected DrawerLayout drawer;
     private NavigationView navigationView;
     private ActionBarDrawerToggle actionBarDrawerToggle;
-    private RecyclerView recyclerView;
-    public String TAG = "food_menu";
+    protected RecyclerView recyclerView;
+    private String TAG = "food_menu";
     private AlertDialog.Builder alertDialog;
     private MaterialEditText category_name;
     private Button select, upload;
     private Uri uri;
     private CategoryModel newCategoryModel;
-    DatabaseReference databaseReference;
+    private DatabaseReference databaseReference;
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
     private Storage storage;
     private ImageView category_image;
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -144,15 +146,17 @@ public class food_menu extends AppCompatActivity implements NavigationView.OnNav
 
 
         drawer = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer, toolbar,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        getSupportActionBar().setDisplayShowHomeEnabled(true);
         View v = navigationView.getHeaderView(0);
         TextView t = v.findViewById(R.id.nav_header_title);
+        t.setText(User.currentUser.getName());
 
         Query query = FirebaseDatabase.getInstance().getReference("category");
 
@@ -196,6 +200,9 @@ public class food_menu extends AppCompatActivity implements NavigationView.OnNav
         recyclerView.setLayoutManager(new LinearLayoutManager(food_menu.this));
 
         recyclerView.setAdapter(firebaseRecyclerAdapter);
+
+        Intent service = new Intent(food_menu.this, ListenOrder.class);
+        startService(service);
     }
 
     @Override
@@ -221,7 +228,22 @@ public class food_menu extends AppCompatActivity implements NavigationView.OnNav
         alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                databaseReference.child(key).removeValue();
+         databaseReference.child(key).removeValue();
+
+                final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("foodlist");
+                databaseReference.orderByChild("MenuId").equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                            databaseReference.child(snapshot.getKey()).removeValue();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
                 firebaseRecyclerAdapter.notifyDataSetChanged();
                 dialog.dismiss();
             }

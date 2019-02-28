@@ -22,4 +22,8 @@
     <string name="action_share">Add to Cart</string>
     <string name="save_for_later">Save for Later</string>
     <string name="userName">username</string>
+    <string name="spinner_title">Change Order Status</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="channel_name">New Order</string>
+    <string name="channel_description">new_order_notification</string>
 </resources>

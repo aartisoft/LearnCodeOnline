@@ -18,13 +18,16 @@ public class Request {
         this.orderStatus = orderStatus;
     }
 
-    public Request(String name, String phone, String address, String total, ArrayList<Order> requestedOrderList) {
+    public Request() {
+    }
+
+    public Request(String name, String phone, String address, String total, ArrayList<Order> requestedOrderList, int orderStatus) {
         Name = name;
         Phone = phone;
         Address = address;
         Total = total;
         this.requestedOrderList = requestedOrderList;
-        orderStatus =0;
+        this.orderStatus =orderStatus;
     }
 
     public String getName() {
